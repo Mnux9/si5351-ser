@@ -4,7 +4,6 @@ Si5351 si5351;
 
 
 int long out = 2500000000;
-int long fsetl = 25000000;
 String fset = "25000000";
 
 //Serial stuff
@@ -25,7 +24,7 @@ void setup() {
   si5351.set_correction(132800, SI5351_PLL_INPUT_XO);
   
   //set the initial frequency output
-  si5351.set_freq(2499990000ULL, SI5351_CLK0);
+  si5351.set_freq(2500000000ULL, SI5351_CLK0);
 
   //serial ui
   Serial.println(":3333333333333333333333");
@@ -54,14 +53,13 @@ void loop() {
             fset = buffer.substring(1,20);
             Serial.print("Output frequency set to: ");
             Serial.println(fset);
-            //out = atoi(fset.c_str());
             out = strtoul(fset.c_str(), NULL, 10);
-            fsetl = strtoul(fset.c_str(), NULL, 10);
-            out = fsetl * 100ULL;
-            si5351.set_freq(out, SI5351_CLK0);
+            si5351.set_freq(out * 100ULL, SI5351_CLK0);
         }
         
       buffer = "";
+
+      Serial.println(out);
 
 
     }
